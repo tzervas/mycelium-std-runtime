@@ -12,23 +12,50 @@ publish = false
 workspace = true
 
 [dependencies]
-mycelium-core = { path = "../mycelium-core" }
-mycelium-std-core = { path = "../mycelium-std-core" }
+mycelium-core = { git = "https://github.com/tzervas/mycelium-core", rev = "781d3fcceba82acfe6b0eb46650513bd78a2416b" }
+mycelium-std-core = { git = "https://github.com/tzervas/mycelium-std-core", rev = "580b64316774e22f0b7d5d495ca1d9b9d6536a60" }
 # The work-stealing Scheduler (M-709/M-861), relocated below mycelium-interp so the interpreter
 # can depend on it too (M-862) without an interp<->std-runtime cycle. Re-exported at
 # `crate::scheduler` for existing consumers (see src/scheduler.rs).
-mycelium-sched = { path = "../mycelium-sched" }
+mycelium-sched = { git = "https://github.com/tzervas/mycelium-runtime", rev = "ab9cee665b620ed80ab74ea61ea639817dc49077" }
 # M-883/M-884: the reclamation (MEM-1) and supervision (M-713) surfaces relocated below
 # mycelium-mlir (the runtime-ABI seam extraction — fixes the mlir->std-runtime upward-tier edge);
 # re-exported at `crate::reclamation` / `crate::supervision` for existing consumers (see
 # src/reclamation.rs / src/supervision.rs). The M-356 composition kernel this crate used to reuse
 # via a direct `mycelium-interp` dependency is now consumed transitively through this crate.
-mycelium-rt-abi = { path = "../mycelium-rt-abi" }
+mycelium-rt-abi = { git = "https://github.com/tzervas/mycelium-runtime", rev = "ab9cee665b620ed80ab74ea61ea639817dc49077" }
 # M-963 (DN-78 §3 B-1/B-2): the mechanized SelectionPolicy capture/replay + reified setter
 # surface rides the existing RFC-0005 machinery — mycelium-select is a foundational crate
 # (depends only on mycelium-core), so this edge stays acyclic (DN-68 / H0 gate).
-mycelium-select = { path = "../mycelium-select" }
+mycelium-select = { git = "https://github.com/tzervas/mycelium-runtime", rev = "ab9cee665b620ed80ab74ea61ea639817dc49077" }
 
 [dev-dependencies]
 # Property-based testing for the RT2 sequentialization + liveness + backpressure differentials.
 proptest = "1"
+
+# --- standalone workspace root (course-correction Phase B, 2026-07-18; steer handoff §6.2) ---
+[workspace]
+
+[workspace.package]
+version = "0.464.0"
+edition = "2021"
+rust-version = "1.96.1"
+license = "MIT"
+repository = "https://github.com/tzervas/mycelium-std-runtime"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+blake3 = "1"
+
+[workspace.lints.rust]
+# ADR-014: unsafe permitted-but-documented; the check is clippy::undocumented_unsafe_blocks.
+unsafe_code = "allow"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+undocumented_unsafe_blocks = "warn"
+
+# G2 never-silent arithmetic: release builds panic on overflow (monorepo parity).
+[profile.release]
+overflow-checks = true
