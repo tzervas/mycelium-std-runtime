@@ -12,22 +12,22 @@ publish = false
 workspace = true
 
 [dependencies]
-mycelium-core = { git = "https://github.com/tzervas/mycelium-core", rev = "781d3fcceba82acfe6b0eb46650513bd78a2416b" }
-mycelium-std-core = { git = "https://github.com/tzervas/mycelium-std-core", rev = "580b64316774e22f0b7d5d495ca1d9b9d6536a60" }
+mycelium-core = { git = "https://github.com/tzervas/mycelium-core", rev = "46d2515cbd86d2ae4d1365f4adcd2796737e9f0b" }
+mycelium-std-core = { git = "https://github.com/tzervas/mycelium-std-core", rev = "376762cc17853e1582684ececf9e760426bcfb0c" }
 # The work-stealing Scheduler (M-709/M-861), relocated below mycelium-interp so the interpreter
 # can depend on it too (M-862) without an interp<->std-runtime cycle. Re-exported at
 # `crate::scheduler` for existing consumers (see src/scheduler.rs).
-mycelium-sched = { git = "https://github.com/tzervas/mycelium-runtime", rev = "ab9cee665b620ed80ab74ea61ea639817dc49077" }
+mycelium-sched = { git = "https://github.com/tzervas/mycelium-runtime", rev = "487b1e7049ff521b1a6fa33f376245089e7dc1e1" }
 # M-883/M-884: the reclamation (MEM-1) and supervision (M-713) surfaces relocated below
 # mycelium-mlir (the runtime-ABI seam extraction — fixes the mlir->std-runtime upward-tier edge);
 # re-exported at `crate::reclamation` / `crate::supervision` for existing consumers (see
 # src/reclamation.rs / src/supervision.rs). The M-356 composition kernel this crate used to reuse
 # via a direct `mycelium-interp` dependency is now consumed transitively through this crate.
-mycelium-rt-abi = { git = "https://github.com/tzervas/mycelium-runtime", rev = "ab9cee665b620ed80ab74ea61ea639817dc49077" }
+mycelium-rt-abi = { git = "https://github.com/tzervas/mycelium-runtime", rev = "487b1e7049ff521b1a6fa33f376245089e7dc1e1" }
 # M-963 (DN-78 §3 B-1/B-2): the mechanized SelectionPolicy capture/replay + reified setter
 # surface rides the existing RFC-0005 machinery — mycelium-select is a foundational crate
 # (depends only on mycelium-core), so this edge stays acyclic (DN-68 / H0 gate).
-mycelium-select = { git = "https://github.com/tzervas/mycelium-runtime", rev = "ab9cee665b620ed80ab74ea61ea639817dc49077" }
+mycelium-select = { git = "https://github.com/tzervas/mycelium-runtime", rev = "487b1e7049ff521b1a6fa33f376245089e7dc1e1" }
 
 [dev-dependencies]
 # Property-based testing for the RT2 sequentialization + liveness + backpressure differentials.
