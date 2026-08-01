@@ -13,7 +13,7 @@ workspace = true
 
 [dependencies]
 mycelium-core = { git = "https://github.com/tzervas/mycelium-core", rev = "57ef45b453eef1f02bdfb1f0cad1034dabd32b1f" }
-mycelium-std-core = { git = "https://github.com/tzervas/mycelium-std-core", rev = "276d6a1aa75b2aa15accc06bdc32886e9cf54bc4" }
+mycelium-std-core = { git = "https://github.com/tzervas/mycelium-std-core", rev = "19398dfd847eb9a5fc518149a714d7646abbb316" }
 # The work-stealing Scheduler (M-709/M-861), relocated below mycelium-interp so the interpreter
 # can depend on it too (M-862) without an interp<->std-runtime cycle. Re-exported at
 # `crate::scheduler` for existing consumers (see src/scheduler.rs).
